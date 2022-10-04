@@ -10,6 +10,8 @@ import hello.core.member.MemoryMemberRepository;
 import hello.core.order.Order;
 import hello.core.order.OrderServceImpl;
 import hello.core.order.OrderService;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,14 +19,18 @@ import org.springframework.context.annotation.Configuration;
 public class AppConfig {
     @Bean
     public MemberService memberService(){
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
+    @Contract(" -> new")
     @Bean
-    public static MemberRepository memberRepository() {
+    public static @NotNull MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
     @Bean
     public OrderService orderService(){
+        System.out.println("call AppConfig.orderService");
         return new OrderServceImpl(memberRepository(), discountPolicy());
     }
     @Bean
