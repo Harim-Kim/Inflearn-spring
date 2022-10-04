@@ -12,15 +12,17 @@ import hello.core.order.OrderServceImpl;
 import hello.core.order.OrderService;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
+    @Autowired MemberRepository memberRepository;
     @Bean
     public MemberService memberService(){
         System.out.println("call AppConfig.memberService");
-        return new MemberServiceImpl(memberRepository());
+        return new MemberServiceImpl(memberRepository);
     }
     @Contract(" -> new")
     @Bean
@@ -31,7 +33,7 @@ public class AppConfig {
     @Bean
     public OrderService orderService(){
         System.out.println("call AppConfig.orderService");
-        return new OrderServceImpl(memberRepository(), discountPolicy());
+        return new OrderServceImpl(memberRepository, discountPolicy());
     }
     @Bean
     public DiscountPolicy discountPolicy(){
